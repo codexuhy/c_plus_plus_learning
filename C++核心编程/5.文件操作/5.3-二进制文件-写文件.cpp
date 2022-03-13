@@ -5,7 +5,7 @@ using namespace std;
     写文件
         二进制写文件主要利用流对象调用成员函数write
         函数原型： ostream& write(const char * buffer，int len);
-        参数解释：字符指针buffer指向内存汇总一段存储空间，lne是读写的字节数
+        参数解释：字符指针buffer指向内存中一段存储空间，len是读写的字节数
 */
 
 class Person
