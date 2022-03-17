@@ -1,5 +1,5 @@
 #include "workerManager.h"
-
+#include "stdlib.h"
 WorkerManager::WorkerManager()
 {
 }
@@ -22,4 +22,10 @@ void WorkerManager::Show_Menu()
     cout << "**********  7.清空所有文档  *********" << endl;
     cout << "*************************************" << endl;
     cout << endl;
+}
+
+void WorkerManager::exitSystem()
+{
+    cout << "欢迎下次使用" << endl;
+    exit(0);
 }

@@ -17,7 +17,7 @@
 管理系统中需要实现的功能如下：
 
 - 退出管理程序：退出当前管理系统
--  增加职工信息：实现批量添加职工信息，将信息录入文件中，职工信息为：职工编号，姓名，部门编号
+- 增加职工信息：实现批量添加职工信息，将信息录入文件中，职工信息为：职工编号，姓名，部门编号
 - 显示职工信息：显示公司内部所有职工的信息
 - 删除离职员工：按照编号删除指定的职工
 - 修改职工信息：按照编号修改职工的个人信息
@@ -125,8 +125,76 @@ void WorkerManager::Show_Menu()
     cout << "**********  5.查找职工信息  *********" << endl;
     cout << "**********  6.按照编号排序  *********" << endl;
     cout << "**********  7.清空所有文档  *********" << endl;
-    cout << "*************************************" << endl;
+    cout << "************************************" << endl;
     cout << endl;
+}
+```
+
+## 5、退出功能
+
+### 5.1 提供功能接口
+
+在main函数中提供分支选择，提供每个功能接口
+
+职工管理系统-代码：
+
+```
+#include <iostream>
+using namespace std;
+#include "workerManager.cpp"
+
+int main()
+{
+
+    // 实例化管理者对象
+    WorkerManager wm;
+    int choice = 0;
+    while (true)
+    {
+        //展示菜单
+        wm.Show_Menu();
+        cout << "请输入您的选择:" << endl;
+        cin >> choice;
+        switch (choice)
+        {
+        case 0: //退出系统
+            wm.exitSystem();
+            break;
+        case 1: //添加职工
+            break;
+        case 2: //显示职工
+            break;
+        case 3: //删除职工
+            break;
+        case 4: //修改职工
+            break;
+        case 5: //查找职工
+            break;
+        case 6: //排序职工
+            break;
+        case 7: //清空文件
+            break;
+        default:
+            // system("pause");7
+            exit(0);
+        }
+    }
+
+    return 0;
+}
+```
+
+### 5.2 实现退出功能
+
+在workerManager.h中提供退出系统的成员函数 void exitSystem();
+
+在workerManager.cpp中提供具体的功能实现
+
+```
+void WorkerManager::exitSystem()
+{
+    cout << "欢迎下次使用" << endl;
+    exit(0);
 }
 ```
 

@@ -11,6 +11,9 @@ public:
     //展示菜单
     void Show_Menu();
 
+    //退出系统
+    void exitSystem();
+
     //析构函数
     ~WorkerManager();
 };
