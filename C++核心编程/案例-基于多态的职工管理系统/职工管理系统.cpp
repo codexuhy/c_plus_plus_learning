@@ -2,10 +2,10 @@
 using namespace std;
 #include "workerManager.cpp"
 
-// #include "worker.h"
-// #include "employee.cpp"
-// #include "manager.cpp"
-// #include "boss.cpp"
+#include "worker.h"
+#include "employee.cpp"
+#include "manager.cpp"
+#include "boss.cpp"
 
 // void test(){
 //     Worker * worker = NULL;
@@ -44,6 +44,7 @@ int main()
             wm.exitSystem();
             break;
         case 1: //添加职工
+            wm.Add_Emp();
             break;
         case 2: //显示职工
             break;
