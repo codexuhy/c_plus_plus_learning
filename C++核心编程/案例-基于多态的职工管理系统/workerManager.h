@@ -5,6 +5,9 @@ using namespace std; //使用标准命名空间
 #include "employee.h"
 #include "manager.h"
 #include "boss.h"
+
+#include <fstream>
+#define FILENAME "aempFile.txt"
 class WorkerManager
 {
 public:
@@ -19,6 +22,8 @@ public:
 
     //增加职工
 	void Add_Emp();
+    //保存文件
+    void save();
 
     //析构函数
     ~WorkerManager();

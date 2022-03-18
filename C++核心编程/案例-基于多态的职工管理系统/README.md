@@ -425,3 +425,196 @@ void test(){
 ```
 
 测试完成后，可删除测试代码，恢复原来的代码
+
+## 7、添加职工
+
+功能描述：批量添加职工，并且保存到文件中
+
+### 7.1 功能分析
+
+分析：
+
+用户在批量创建时，可能会创建不同种类的员工
+
+如果想将不同种类的员工都放入到一个数组中，可以将所有员工的指针维护到一个数组里
+
+如果想在程序中维护这个不定长度的数组，可以将数组创建到堆区，并利用worker**的指针维护
+
+| new Employee | new Boss | new Employee | new Manager | new Employee |
+| ------------ | -------- | ------------ | ----------- | ------------ |
+| worker *     | worker * | worker *     | worker *    | worker *     |
+
+### 7.2 功能实现
+
+在WorkerManager.h头文件中添加成员属性 代码：
+
+```C++
+    //记录文件中的人数个数
+    int m_EmpNum;
+    //员工数组的指针
+    Worker ** = m_EmpArray;
+```
+
+在WorkerManager构造函数中初始化属性
+
+```
+WorkerManager::WorkerManager()
+{
+    //初始化人数
+    this->m_EmpNum = 0;
+
+    //初始化数组指针
+    this->EmpArray = NULL;
+}
+```
+
+在workerManager.h中添加成员函数
+
+```
+	//增加职工
+	void Add_Emp();
+```
+
+在WorkerManager.cpp中实现该函数
+
+```
+	//增加职工
+void WorkerManager::Add_Emp()
+{
+    cout << "请输入增加职工的数量：" << endl;
+
+    int addNum = 0; //保存用户的输入数量
+    cin >> addNum;
+
+    if (addNum > 0)
+    {
+        //添加
+        //计算新空间大小
+        int newSize = this->m_EmpNum + addNum;
+
+        //开辟新空间
+        Worker **newSpace = new Worker *[newSize];
+
+        //将原空间下的内容存放到新空间下
+        if (this->m_EmpArray != NULL)
+        {
+            for (int i = 0; i < this->m_EmpNum; i++)
+            {
+                newSpace[i] = this->m_EmpArray[i];
+            }
+        }
+
+        //批量添加新数据
+        for (int i = 0; i < addNum; i++)
+        {
+            int id;      //职工编号
+            string name; //姓名
+            int dSelect; //部门选择
+
+            cout << "请输入第" << i << i + 1 << "个新职工编号" << endl;
+            cin >> id;
+            cout << "请输入第" << i << i + 1 << "个新职工姓名" << endl;
+            cin >> name;
+
+            cout << "请选择该职工的岗位：" << endl;
+            cout << "1、普通职工" << endl;
+            cout << "2、经理" << endl;
+            cout << "3、老板" << endl;
+            cin >> dSelect;
+
+            Worker *worker = NULL;
+            switch (dSelect)
+            {
+            case 1:
+                worker = new Employee(id, name, 1);
+                break;
+            case 2:
+                worker = new Manager(id, name, 2);
+                break;
+            case 3:
+                worker = new Manager(id, name, 3);
+            default:
+                break;
+            }
+
+            newSpace[this->m_EmpNum + i] = worker;
+
+            //释放原有空间
+            delete[] this->m_EmpArray;
+
+            //更改新空间的指向
+            this->m_EmpArray = newSpace;
+
+            //提示添加成功
+            cout << "成功添加" << addNum << "名新职工" << endl;
+        }
+    }
+    else
+    {
+        cout << "输入有误" << endl;
+    }
+}
+```
+
+### 7.3 测试
+
+在职工管理系统.cpp中添加测试函数,
+
+```
+#include "worker.h"
+
+#include "employee.cpp"
+
+#include "manager.cpp"
+
+#include "boss.cpp"
+
+wm.Add_Emp();
+```
+
+## 8、文件交互-写文件
+
+功能描述：对文件进行读写
+
+​	在上一个添加功能中，我们只是将所有的数据添加到了内存中，一旦程序结束就无法保存了
+
+​	因此文件管理中需要一个与文件进行交互的功能，对于文件进行读写操作
+
+### 8.1 设定文件路径
+
+首先我们将文件路径，在workerManager.h中添加宏常量，并且包含头文件fstream
+
+```
+#include <iostream>
+#define FILENAME "empFile.txt"
+```
+
+
+
+### 8.2 成员函数声明
+
+在workerManager.h中类里添加成员函数void save()
+
+```
+// 保存文件
+void save();
+```
+
+### 8.3保存文件功能实现
+
+```
+void WorkerManager::save()
+{
+    ofstream ofs;
+    ofs.open(FILENAME,ios::out);
+
+    for (int i = 0;i < this->m_EmpNum;i++)
+    {
+        ofs << this->m_EmpArray[i]->m_Id << " "
+        << this->m_EmpArray[i]->m_Name << " "
+        << this->m_EmpArray[i]->m_DeptId << endl;
+    }
+
+    ofs.close();
+}
+```

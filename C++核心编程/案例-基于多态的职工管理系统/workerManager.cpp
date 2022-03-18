@@ -105,10 +105,30 @@ void WorkerManager::Add_Emp()
 
             //提示添加成功
             cout << "成功添加" << addNum << "名新职工" << endl;
+
+            //保存数据到文件中
+            this->save();
         }
     }
     else
     {
         cout << "输入有误" << endl;
     }
+}
+
+// 保存文件功能实现
+void WorkerManager::save()
+{
+    ofstream ofs;
+    ofs.open(FILENAME,ios::out | ios::trunc); //用输出的方式打开文件 --- 写文件
+
+    // 将每个人数据写入文件中
+    for (int i = 0;i < this->m_EmpNum;i++)
+    {
+        ofs << this->m_EmpArray[i]->m_Id << " "
+        << this->m_EmpArray[i]->m_Name << " "
+        << this->m_EmpArray[i]->m_DeptId << endl;
+    }
+
+    ofs.close();
 }
