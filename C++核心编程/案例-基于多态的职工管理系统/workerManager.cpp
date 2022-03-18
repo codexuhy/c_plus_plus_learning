@@ -2,11 +2,26 @@
 #include "stdlib.h"
 WorkerManager::WorkerManager()
 {
-    //初始化人数
-    this->m_EmpNum = 0;
+    // //初始化人数
+    // this->m_EmpNum = 0;
 
-    //初始化数组指针
-    this->m_EmpArray = NULL;
+    // //初始化数组指针
+    // this->m_EmpArray = NULL;
+
+    ifstream ifs;
+    ifs.open(FILENAME,ios::in);
+
+    //文件不存在情况
+    if (!ifs.is_open())
+    {
+        cout << "文件不存在" << endl; // 测试输出
+        this->m_EmpNum = 0; // 初始化人数
+        this->m_FileIsEmpty = true; //初始化文件为空标志
+        this->m_EmpArray = NULL; //初始化数组
+        ifs.close(); //关闭文件
+        return;
+    }
+    
 }
 
 WorkerManager::~WorkerManager()

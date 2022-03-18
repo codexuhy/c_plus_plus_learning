@@ -7,7 +7,7 @@ using namespace std; //使用标准命名空间
 #include "boss.h"
 
 #include <fstream>
-#define FILENAME "aempFile.txt"
+#define FILENAME "empFile.txt"
 class WorkerManager
 {
 public:
@@ -32,4 +32,7 @@ public:
     int m_EmpNum;
     //员工数组的指针
     Worker ** m_EmpArray;
+
+    // 标志文件是否为空
+	bool m_FileIsEmpty;
 };
