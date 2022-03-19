@@ -11,7 +11,7 @@ WorkerManager::WorkerManager()
     ifstream ifs;
     ifs.open(FILENAME,ios::in);
 
-    //文件不存在情况
+    //1、文件不存在情况
     if (!ifs.is_open())
     {
         cout << "文件不存在" << endl; // 测试输出
@@ -22,7 +22,7 @@ WorkerManager::WorkerManager()
         return;
     }
 
-    //文件存在，并且没有记录
+    //2、文件存在，并且没有记录
     char ch;
     ifs >> ch;
     if (ifs.eof())
@@ -34,6 +34,11 @@ WorkerManager::WorkerManager()
         ifs.close(); //关闭文件
         return;
     }
+
+    // 3、文件存在，并且记录数据
+    int num = this->get_EmpNum();
+    cout << "职工个数为：" << num << endl; //测试代码
+    this->m_EmpNum = num; // 更新成员属性
     
 }
 
@@ -162,4 +167,25 @@ void WorkerManager::save()
     }
 
     ofs.close();
+}
+
+
+int WorkerManager::get_EmpNum()
+{
+    ifstream ifs;
+    ifs.open(FILENAME,ios::in);
+
+    int id;
+    string name;
+    int dId;
+
+    int num = 0;
+
+    while(ifs >> id && ifs >> name && ifs >> dId)
+    {
+        //记录人数
+        num++;
+    }
+    ifs.close();
+    return num;
 }

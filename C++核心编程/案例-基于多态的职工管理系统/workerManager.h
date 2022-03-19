@@ -25,6 +25,9 @@ public:
     //保存文件
     void save();
 
+    //统计人数
+    int get_EmpNum();
+
     //析构函数
     ~WorkerManager();
 public:

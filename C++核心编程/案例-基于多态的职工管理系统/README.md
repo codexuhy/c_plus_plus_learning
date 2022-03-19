@@ -705,3 +705,54 @@ WorkerManager::WorkerManager()
 	this->m_FileISEmpty = false;
 ```
 
+### 9.3文件存在且保存职工数据
+
+#### 9.3.1 获取记录的职工人数
+
+在workerManager.h中添加成员函数 int get_EmpNum();
+
+```C++
+	// 统计人数
+	int get_EmpNum;
+```
+
+workerManager.cpp中实现
+
+```C++
+int WorkerManager::get_EmpNum()
+{
+    ifstream ifs;
+    ifs.open(FILENAME,ios::in);
+
+    int id;
+    string name;
+    int dId;
+
+    int num = 0;
+
+    while(ifs >> id && ifs >> name && ifs >> dId)
+    {
+        //记录人数
+        num++;
+    }
+    ifs.close();
+    return num;
+}
+```
+
+在workerManager.cpp构造函数中继续追加代码：
+
+```C++
+    int num = this->get_EmpNum();
+    cout << "职工个数为：" << num << endl; //测试代码
+    this->m_EmpNum = num; // 更新成员属性
+```
+
+手动添加一些职工数据(empFile.txt)，测试获取职工数量函数
+
+```txt
+1   张三    1
+2   李四    2
+3   王五    3
+```
+
