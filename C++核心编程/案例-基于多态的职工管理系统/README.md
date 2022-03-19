@@ -756,3 +756,173 @@ int WorkerManager::get_EmpNum()
 3   王五    3
 ```
 
+#### 9.3.4 初始化数组
+
+根据职工的数据以及职工数据，初始化workerManager中Worker** m_EmptyArray指针
+
+
+
+在workerManager.h中添加成员函数void init_Emp;
+
+```C++
+    //初始化员工
+	void init_Emp();
+```
+
+在workerManager.cpp中实现
+
+```C++
+void WorkerManager::init_Emp()
+{
+    ifstream ifs;
+    ifs.open(FILENAME,ios::in);
+    
+    int id;
+    string name;
+    int dId;
+    
+    int index = 0;
+    while(ifs >> id && ifs >> name && ifs >> dId)
+    {
+        Worker * worker = NULL;
+        //根据不同给的部门Id创建不同对象
+        if(dId == 1) // 1普通员工
+        {
+            worker = new Employee(id,name,dId);
+        }
+        else if (dId == 2)//2经理
+        {
+            worker = new Manager(id,name,dId);
+        }
+        else //3总裁
+        {
+            worker = new Boss(id,name,dId);
+        }
+        // 存放在数组中
+        this->m_EmpArray[index]  = worker;
+        index++;
+    }
+}
+```
+
+在workerManager.cpp构造函数中追加代码
+
+```C++
+    //根据职工数创建数组
+    this->m_EmpArray = new Worker *[this->m_EmpNum];
+    //初始化职工
+    init_Emp();
+
+    //测试代码
+    for (int i = 0;i < m_EmpNum;i++)
+    {
+        cout << "职工号：" << this->m_EmpArray[i]->m_Id
+            << "职工姓名：" << this->m_EmpArray[i]->m_Name
+            << "部门编号：" << this->m_EmpArray[i]->m_DeptId << endl;
+    }
+```
+
+## 10、显示职工
+
+功能描述：显示当前所有职工信息
+
+### 10.1 显示职工函数声明
+
+在workerManager.h中添加成员函数 void Show_Emp();
+
+```C++
+	//显示职工
+	void Show_Emp();
+```
+
+####  10.2 显示职工函数实现
+
+在workerManager.cpp中实现成员函数 void Show_Emp();
+
+```C++
+// 显示职工
+void WorkerManager::Show_Emp()
+{
+    if (this->m_FileIsEmpty)
+    {
+        cout << "文件不存在或记录为空！" << endl;
+    }
+    else
+    {
+        for (int i = 0; i < m_EmpNum;i++)
+        {
+            //利用多态调用接口
+            this->m_EmpArray[i]->showInfo();
+        }
+    }
+}
+```
+
+## 11、删除职工
+
+功能描述：按照职工的编号进行删除职工操作
+
+
+
+### 11.1 删除职工函数声明
+
+在workerManager.h中添加成员函数void Del_Emp();
+
+```C++
+	//删除职工
+	void Del_Emp();
+```
+
+### 11.2 职工是否存在函数声明
+
+很多功能都需要用到根据职工是否存在来进行操作如：删除职工、修改职工、查找职工
+
+因此添加该公告函数，以便后续调用
+
+在workerManager.h中添加成员函数`init IsExist(int id);`
+
+```C++
+//判断职工是否存在 如果存在返回职工所在数组中的位置，不存在返回-1
+int IsExist(int id);
+```
+
+### 11.3 职工是否存在函数实现
+
+在workerManager.cpp中实现成员函数`init IsExist(int id);`
+
+```C++
+int WorkerManager::IsExist(int id)
+{
+    int index = -1;
+    for (int i = 0;i < this->m_EmpNum;i++)
+    {
+        if (this->m_EmpArray[i]->m_Id == id)
+        {
+            //找到职工
+            index = i;
+            break;
+        }
+    }
+    return index;
+}
+```
+
+测试代码
+
+在`职工管理系统.cpp`中switch语句中追加以下代码;
+
+```C++
+        // 测试
+        {
+            int ret = wm.IsExist(5);
+            if(ret != -1)
+            {
+                cout << "职工存在" << endl;
+            }
+            else
+            {
+                cout << "职工不存在" << endl;
+            }
+            break; 
+        }
+```
