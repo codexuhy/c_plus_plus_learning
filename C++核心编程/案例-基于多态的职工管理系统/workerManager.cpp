@@ -14,7 +14,7 @@ WorkerManager::WorkerManager()
     //1、文件不存在情况
     if (!ifs.is_open())
     {
-        cout << "文件不存在" << endl; // 测试输出
+        // cout << "文件不存在" << endl; // 测试输出
         this->m_EmpNum = 0; // 初始化人数
         this->m_FileIsEmpty = true; //初始化文件为空标志
         this->m_EmpArray = NULL; //初始化数组
@@ -27,7 +27,7 @@ WorkerManager::WorkerManager()
     ifs >> ch;
     if (ifs.eof())
     {
-        cout << "文件为空！" << endl;
+        // cout << "文件为空！" << endl;
         this->m_EmpNum = 0; // 初始化人数
         this->m_FileIsEmpty = true; //初始化文件为空标志
         this->m_EmpArray = NULL; //初始化数组
@@ -37,8 +37,23 @@ WorkerManager::WorkerManager()
 
     // 3、文件存在，并且记录数据
     int num = this->get_EmpNum();
-    cout << "职工个数为：" << num << endl; //测试代码
+    // cout << "职工个数为：" << num << endl; //测试代码
     this->m_EmpNum = num; // 更新成员属性
+
+    //根据职工数创建数组(开辟空间)
+    this->m_EmpArray = new Worker *[this->m_EmpNum];
+    //初始化职工(将文件中的员工，初始化到数组中)
+    init_Emp();
+
+    //测试代码
+    // for (int i = 0;i < m_EmpNum;i++)
+    // {
+    //     cout << "职工号：" << this->m_EmpArray[i]->m_Id
+    //         << "职工姓名：" << this->m_EmpArray[i]->m_Name
+    //         << "部门编号：" << this->m_EmpArray[i]->m_DeptId << endl;
+    // }
+
+
     
 }
 
@@ -182,10 +197,42 @@ int WorkerManager::get_EmpNum()
     int num = 0;
 
     while(ifs >> id && ifs >> name && ifs >> dId)
-    {
-        //记录人数
-        num++;
+    {    
+        //记录人数    
+        num++;    
     }
     ifs.close();
     return num;
+}
+
+void WorkerManager::init_Emp()
+{
+    ifstream ifs;
+    ifs.open(FILENAME,ios::in);
+    
+    int id;
+    string name;
+    int dId;
+    
+    int index = 0;
+    while(ifs >> id && ifs >> name && ifs >> dId)
+    {
+        Worker * worker = NULL;
+        //根据不同给的部门Id创建不同对象
+        if(dId == 1) // 1普通员工
+        {
+            worker = new Employee(id,name,dId);
+        }
+        else if (dId == 2)//2经理
+        {
+            worker = new Manager(id,name,dId);
+        }
+        else //3总裁
+        {
+            worker = new Boss(id,name,dId);
+        }
+        // 存放在数组中
+        this->m_EmpArray[index]  = worker;
+        index++;
+    }
 }
