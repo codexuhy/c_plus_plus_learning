@@ -236,3 +236,21 @@ void WorkerManager::init_Emp()
         index++;
     }
 }
+
+
+// 显示职工
+void WorkerManager::Show_Emp()
+{
+    if (this->m_FileIsEmpty)
+    {
+        cout << "文件不存在或记录为空！" << endl;
+    }
+    else
+    {
+        for (int i = 0; i < m_EmpNum;i++)
+        {
+            //利用多态调用接口
+            this->m_EmpArray[i]->showInfo();
+        }
+    }
+}
