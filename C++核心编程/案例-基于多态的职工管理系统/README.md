@@ -618,3 +618,90 @@ void WorkerManager::save()
     ofs.close();
 }
 ```
+
+## 9、文件交互 - 读文件
+
+功能描述：将文件中的内容读取到程序中
+
+虽然我们实现了添加职工后保存到文件的操作，但是每次开始运行程序，并没有将文件中数据读取到程序中
+
+而我们的程序功能中还有清空文件的需求
+
+因此构造函数初始化数据的情况分为三种
+
+1.第一次使用，文件未创建
+
+2.文件存在，但是数据被用户清空
+
+3.文件存在，并且保存职工的所有数据
+
+### 9.1 文件未创建
+
+在workerManager.h中添加新的成员属性m_FileEmpty标志文件是否为空
+
+```C++
+	// 标志文件是否为空
+	bool m_FileIsEmpty;
+```
+
+ 修改workerManager.cpp中构造函数代码
+
+```C++
+WorkerManager::WorkerManager()
+{
+
+    ifstream ifs;
+    ifs.open(FILENAME,ios::in);
+
+    //文件不存在情况
+    if (!ifs.is_open())
+    {
+        cout << "文件不存在" << endl; // 测试输出
+        this->m_EmpNum = 0; // 初始化人数
+        this->m_FileIsEmpty = true; //初始化文件为空标志
+        this->m_EmpArray = NULL; //初始化数组
+        ifs.close(); //关闭文件
+        return;
+    }
+    
+}
+```
+
+删除文件后，测试文件不存在时初始化数据功能
+
+
+
+### 9.2 文件存在且数据为空
+
+在workerManager.cpp中的构造函数追加代码：
+
+```C++
+	//文件存在，并且没有记录
+    char ch;
+    ifs >> ch;
+    if (ifs.eof())
+    {
+        cout << "文件为空！" << endl;
+        this->m_EmpNum = 0; // 初始化人数
+        this->m_FileIsEmpty = true; //初始化文件为空标志
+        this->m_EmpArray = NULL; //初始化数组
+        ifs.close(); //关闭文件
+        return;
+    }
+```
+
+将文件创建后清空文件内容，并测试该情况下初始化功能
+
+
+
+我们发现文件不存在或者为空清空m_FileIsEmpty判断文件是否为空的标志，那何时为假？
+
+成功添加职工后，应该更改文件不为空的标志
+
+在viod workerManager::Add_Emp()成员函数中添加：
+
+```C++
+	//更新职工不为空标志
+	this->m_FileISEmpty = false;
+```
+
