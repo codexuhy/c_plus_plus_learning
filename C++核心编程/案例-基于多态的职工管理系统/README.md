@@ -353,47 +353,13 @@ string Manager::getDeptName()
 boss.h代码如下：
 
 ```
-#pragma once
-#include <iostream>
-using namespace std;
-#include "worker.h"
-
-class Boss : public Worker
-{
-    Boss(int id, string name, int dId);
-
-    //显示个人信息
-    virtual void showInfo();
-
-    //获取职工岗位名称
-    virtual string getDeptName();
-};
+#pragma once#include <iostream>using namespace std;#include "worker.h"class Boss : public Worker{    Boss(int id, string name, int dId);    //显示个人信息    virtual void showInfo();    //获取职工岗位名称    virtual string getDeptName();};
 ```
 
 boss.cpp代码如下：
 
 ```
-#include "boss.h"
-
-Boss::Boss(int id, string name, int dId)
-{
-    this->m_Id = id;
-    this->m_Name = name;
-    this->m_DeptId = dId;
-}
-
-void Boss::showInfo()
-{
-    cout << "职工编号：" << this->m_Id
-         << "\t职工编号：" << this->m_Name
-         << "\t岗位：" << this->getDeptName()
-         << "\t岗位职责：管理公司所有事务" << endl;
-}
-
-string Boss::getDeptName()
-{
-    return string("总裁");
-}
+#include "boss.h"Boss::Boss(int id, string name, int dId){    this->m_Id = id;    this->m_Name = name;    this->m_DeptId = dId;}void Boss::showInfo(){    cout << "职工编号：" << this->m_Id         << "\t职工编号：" << this->m_Name         << "\t岗位：" << this->getDeptName()         << "\t岗位职责：管理公司所有事务" << endl;}string Boss::getDeptName(){    return string("总裁");}
 ```
 
 ### 6.5 测试多态
@@ -403,25 +369,7 @@ string Boss::getDeptName()
 测试代码如下：
 
 ```
-#include "worker.h"
-#include "employee.h" //(此位置若报错改成employee.cpp,下面同理)
-#include "manager.h"
-#include "boss.h"
-
-void test(){
-    Worker * worker = NULL;
-    worker = new Employee(1,"张三",1);
-    worker->showInfo();
-    delete worker;
-
-    worker = new Manager(2,"李四",2);
-    worker->showInfo();
-    delete worker;
-
-    worker = new Boss(3,"王五",3);
-    worker->showInfo();
-    delete worker;
-}
+#include "worker.h"#include "employee.h" //(此位置若报错改成employee.cpp,下面同理)#include "manager.h"#include "boss.h"void test(){    Worker * worker = NULL;    worker = new Employee(1,"张三",1);    worker->showInfo();    delete worker;    worker = new Manager(2,"李四",2);    worker->showInfo();    delete worker;    worker = new Boss(3,"王五",3);    worker->showInfo();    delete worker;}
 ```
 
 测试完成后，可删除测试代码，恢复原来的代码
@@ -449,111 +397,25 @@ void test(){
 在WorkerManager.h头文件中添加成员属性 代码：
 
 ```C++
-    //记录文件中的人数个数
-    int m_EmpNum;
-    //员工数组的指针
-    Worker ** = m_EmpArray;
+    //记录文件中的人数个数    int m_EmpNum;    //员工数组的指针    Worker ** = m_EmpArray;
 ```
 
 在WorkerManager构造函数中初始化属性
 
 ```
-WorkerManager::WorkerManager()
-{
-    //初始化人数
-    this->m_EmpNum = 0;
-
-    //初始化数组指针
-    this->EmpArray = NULL;
-}
+WorkerManager::WorkerManager(){    //初始化人数    this->m_EmpNum = 0;    //初始化数组指针    this->EmpArray = NULL;}
 ```
 
 在workerManager.h中添加成员函数
 
 ```
-	//增加职工
-	void Add_Emp();
+	//增加职工	void Add_Emp();
 ```
 
 在WorkerManager.cpp中实现该函数
 
 ```
-	//增加职工
-void WorkerManager::Add_Emp()
-{
-    cout << "请输入增加职工的数量：" << endl;
-
-    int addNum = 0; //保存用户的输入数量
-    cin >> addNum;
-
-    if (addNum > 0)
-    {
-        //添加
-        //计算新空间大小
-        int newSize = this->m_EmpNum + addNum;
-
-        //开辟新空间
-        Worker **newSpace = new Worker *[newSize];
-
-        //将原空间下的内容存放到新空间下
-        if (this->m_EmpArray != NULL)
-        {
-            for (int i = 0; i < this->m_EmpNum; i++)
-            {
-                newSpace[i] = this->m_EmpArray[i];
-            }
-        }
-
-        //批量添加新数据
-        for (int i = 0; i < addNum; i++)
-        {
-            int id;      //职工编号
-            string name; //姓名
-            int dSelect; //部门选择
-
-            cout << "请输入第" << i << i + 1 << "个新职工编号" << endl;
-            cin >> id;
-            cout << "请输入第" << i << i + 1 << "个新职工姓名" << endl;
-            cin >> name;
-
-            cout << "请选择该职工的岗位：" << endl;
-            cout << "1、普通职工" << endl;
-            cout << "2、经理" << endl;
-            cout << "3、老板" << endl;
-            cin >> dSelect;
-
-            Worker *worker = NULL;
-            switch (dSelect)
-            {
-            case 1:
-                worker = new Employee(id, name, 1);
-                break;
-            case 2:
-                worker = new Manager(id, name, 2);
-                break;
-            case 3:
-                worker = new Manager(id, name, 3);
-            default:
-                break;
-            }
-
-            newSpace[this->m_EmpNum + i] = worker;
-
-            //释放原有空间
-            delete[] this->m_EmpArray;
-
-            //更改新空间的指向
-            this->m_EmpArray = newSpace;
-
-            //提示添加成功
-            cout << "成功添加" << addNum << "名新职工" << endl;
-        }
-    }
-    else
-    {
-        cout << "输入有误" << endl;
-    }
-}
+	//增加职工void WorkerManager::Add_Emp(){    cout << "请输入增加职工的数量：" << endl;    int addNum = 0; //保存用户的输入数量    cin >> addNum;    if (addNum > 0)    {        //添加        //计算新空间大小        int newSize = this->m_EmpNum + addNum;        //开辟新空间        Worker **newSpace = new Worker *[newSize];        //将原空间下的内容存放到新空间下        if (this->m_EmpArray != NULL)        {            for (int i = 0; i < this->m_EmpNum; i++)            {                newSpace[i] = this->m_EmpArray[i];            }        }        //批量添加新数据        for (int i = 0; i < addNum; i++)        {            int id;      //职工编号            string name; //姓名            int dSelect; //部门选择            cout << "请输入第" << i << i + 1 << "个新职工编号" << endl;            cin >> id;            cout << "请输入第" << i << i + 1 << "个新职工姓名" << endl;            cin >> name;            cout << "请选择该职工的岗位：" << endl;            cout << "1、普通职工" << endl;            cout << "2、经理" << endl;            cout << "3、老板" << endl;            cin >> dSelect;            Worker *worker = NULL;            switch (dSelect)            {            case 1:                worker = new Employee(id, name, 1);                break;            case 2:                worker = new Manager(id, name, 2);                break;            case 3:                worker = new Manager(id, name, 3);            default:                break;            }            newSpace[this->m_EmpNum + i] = worker;            //释放原有空间            delete[] this->m_EmpArray;            //更改新空间的指向            this->m_EmpArray = newSpace;            //提示添加成功            cout << "成功添加" << addNum << "名新职工" << endl;        }    }    else    {        cout << "输入有误" << endl;    }}
 ```
 
 ### 7.3 测试
@@ -561,15 +423,7 @@ void WorkerManager::Add_Emp()
 在职工管理系统.cpp中添加测试函数,
 
 ```
-#include "worker.h"
-
-#include "employee.cpp"
-
-#include "manager.cpp"
-
-#include "boss.cpp"
-
-wm.Add_Emp();
+#include "worker.h"#include "employee.cpp"#include "manager.cpp"#include "boss.cpp"wm.Add_Emp();
 ```
 
 ## 8、文件交互-写文件
@@ -585,8 +439,7 @@ wm.Add_Emp();
 首先我们将文件路径，在workerManager.h中添加宏常量，并且包含头文件fstream
 
 ```
-#include <iostream>
-#define FILENAME "empFile.txt"
+#include <iostream>#define FILENAME "empFile.txt"
 ```
 
 
@@ -596,8 +449,7 @@ wm.Add_Emp();
 在workerManager.h中类里添加成员函数void save()
 
 ```
-// 保存文件
-void save();
+// 保存文件void save();
 ```
 
 ### 8.3保存文件功能实现
@@ -712,48 +564,25 @@ WorkerManager::WorkerManager()
 在workerManager.h中添加成员函数 int get_EmpNum();
 
 ```C++
-	// 统计人数
-	int get_EmpNum;
+	// 统计人数	int get_EmpNum;
 ```
 
 workerManager.cpp中实现
 
 ```C++
-int WorkerManager::get_EmpNum()
-{
-    ifstream ifs;
-    ifs.open(FILENAME,ios::in);
-
-    int id;
-    string name;
-    int dId;
-
-    int num = 0;
-
-    while(ifs >> id && ifs >> name && ifs >> dId)
-    {
-        //记录人数
-        num++;
-    }
-    ifs.close();
-    return num;
-}
+int WorkerManager::get_EmpNum(){    ifstream ifs;    ifs.open(FILENAME,ios::in);    int id;    string name;    int dId;    int num = 0;    while(ifs >> id && ifs >> name && ifs >> dId)    {        //记录人数        num++;    }    ifs.close();    return num;}
 ```
 
 在workerManager.cpp构造函数中继续追加代码：
 
 ```C++
-    int num = this->get_EmpNum();
-    cout << "职工个数为：" << num << endl; //测试代码
-    this->m_EmpNum = num; // 更新成员属性
+    int num = this->get_EmpNum();    cout << "职工个数为：" << num << endl; //测试代码    this->m_EmpNum = num; // 更新成员属性
 ```
 
 手动添加一些职工数据(empFile.txt)，测试获取职工数量函数
 
 ```txt
-1   张三    1
-2   李四    2
-3   王五    3
+1   张三    12   李四    23   王五    3
 ```
 
 #### 9.3.4 初始化数组
@@ -765,44 +594,13 @@ int WorkerManager::get_EmpNum()
 在workerManager.h中添加成员函数void init_Emp;
 
 ```C++
-    //初始化员工
-	void init_Emp();
+    //初始化员工	void init_Emp();
 ```
 
 在workerManager.cpp中实现
 
 ```C++
-void WorkerManager::init_Emp()
-{
-    ifstream ifs;
-    ifs.open(FILENAME,ios::in);
-    
-    int id;
-    string name;
-    int dId;
-    
-    int index = 0;
-    while(ifs >> id && ifs >> name && ifs >> dId)
-    {
-        Worker * worker = NULL;
-        //根据不同给的部门Id创建不同对象
-        if(dId == 1) // 1普通员工
-        {
-            worker = new Employee(id,name,dId);
-        }
-        else if (dId == 2)//2经理
-        {
-            worker = new Manager(id,name,dId);
-        }
-        else //3总裁
-        {
-            worker = new Boss(id,name,dId);
-        }
-        // 存放在数组中
-        this->m_EmpArray[index]  = worker;
-        index++;
-    }
-}
+void WorkerManager::init_Emp(){    ifstream ifs;    ifs.open(FILENAME,ios::in);        int id;    string name;    int dId;        int index = 0;    while(ifs >> id && ifs >> name && ifs >> dId)    {        Worker * worker = NULL;        //根据不同给的部门Id创建不同对象        if(dId == 1) // 1普通员工        {            worker = new Employee(id,name,dId);        }        else if (dId == 2)//2经理        {            worker = new Manager(id,name,dId);        }        else //3总裁        {            worker = new Boss(id,name,dId);        }        // 存放在数组中        this->m_EmpArray[index]  = worker;        index++;    }}
 ```
 
 在workerManager.cpp构造函数中追加代码
@@ -866,7 +664,7 @@ void WorkerManager::Show_Emp()
 
 ### 11.1 删除职工函数声明
 
-在workerManager.h中添加成员函数void Del_Emp();
+在workerManager.h中添加成员函数`void Del_Emp();`
 
 ```C++
 	//删除职工
@@ -882,8 +680,8 @@ void WorkerManager::Show_Emp()
 在workerManager.h中添加成员函数`init IsExist(int id);`
 
 ```C++
-//判断职工是否存在 如果存在返回职工所在数组中的位置，不存在返回-1
-int IsExist(int id);
+	//判断职工是否存在 如果存在返回职工所在数组中的位置，不存在返回-1
+	int IsExist(int id);
 ```
 
 ### 11.3 职工是否存在函数实现
@@ -965,6 +763,90 @@ void WorkerManager::Del_Emp()
         else
         {
             cout << "删除失败,未找到该职工" << endl;
+        }
+    }
+}
+```
+
+
+
+## 12、修改职工
+
+功能描述：能够按照职工的编号对职工信息进行修改并保存
+
+### 12.1 修改职工函数声明
+
+在workerManager.cpp中实现成员函数` void Mod_Emp();`
+
+```C++
+	// 修改职工
+	void Mod_Emp();
+```
+
+### 12.2 修改职工函数实现
+
+```C++
+//修改职工
+void WorkerManager::Mod_Emp()
+{
+    if (this->m_FileIsEmpty)
+    {
+        cout << "文件不存在或记录为空！" << endl;
+    }
+    else
+    {
+        cout << "请输入修改职工的编号：" << endl;
+        int id;
+        cin >> id;
+
+        int ret = this-> IsExist(id);
+        if (ret != -1)
+        {
+            //查找到编号的职工
+            delete this->m_EmpArray[ret];
+
+            int newId = 0;
+            string newName = "";
+            int dSelect = 0;
+
+            cout << "查到：" << id << "号职工，请输入新职工号：" << endl;
+            cin >> newId;
+
+            cout << "请输入新姓名：" << endl;
+            cin >> newName;
+
+            cout << "请输入岗位：" << endl;
+            cout << "1、普通职工"  << endl;
+            cout << "2、经理" << endl;
+            cout << "3、老板" << endl;
+
+            Worker * worker = NULL;
+            switch (dSelect)
+            {
+                case 1:
+                    worker = new Employee(newId,newName,dSelect);
+                    break;
+                case 2:
+                    worker = new Employee(newId,newName,dSelect);
+                    break;
+                case 3:
+                    worker = new Boss(newId,newName,dSelect);
+                    break;
+                default:
+                    break;
+            }
+
+            // 更改数据到数组中
+            this->m_EmpArray[ret] = worker;
+
+            cout << "修改成功！ " << this->m_EmpArray[ret]->m_DeptId << endl;
+
+            //保存到文件中
+            this->save();
+        }
+        else
+        {
+            cout << "修改失败，查无此人" << endl;
         }
     }
 }

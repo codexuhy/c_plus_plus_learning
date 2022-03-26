@@ -53,6 +53,7 @@ int main()
             wm.Del_Emp();
             break;
         case 4: //修改职工
+            wm.Mod_Emp();
             break;
         case 5: //查找职工
             break;
