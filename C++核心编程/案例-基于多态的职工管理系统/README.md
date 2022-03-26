@@ -1006,3 +1006,62 @@ void WorkerManager::Sort_Emp()
 }
 ```
 
+## 15、清空文件
+
+功能描述：将文件中记录数据清空
+
+### 15.1 清空函数声明
+
+在workerManager.h中添加成员函数 void Clean_File();
+
+```C++
+	//清空文件
+	void clean_File();
+```
+
+在workerManager.cpp中实现函数 void Clean_File();
+
+```C++
+//清空文件
+void WorkerManager::Clean_File()
+{
+    cout << "确认清空？" << endl;
+    cout << "1、确定？" << endl;
+    cout << "2、返回" << endl;
+
+    int select = 0;
+    cin >> select;
+
+    if (select == 1)
+    {
+        //清空文件
+        ofstream ofs(FILENAME,ios::trunc);
+        ofs.close();
+        
+        if (this->m_EmpArray != NULL)
+        {
+            // 删除堆区的每个职工对象
+            for (int i = 0;i < this-> m_EmpNum;i++)
+            {
+                if (this->m_EmpArray[i] != NULL)
+                {
+                    delete this->m_EmpArray[i];
+                    // this->m_EmpArray[i] = NULL;
+                }
+
+            }
+
+            // 删除堆区数组指针
+            this->m_EmpNum = 0;
+            delete [] this->m_EmpArray;
+            this->m_EmpArray = NULL;
+            this->m_EmpNum = NULL;
+            this->m_FileIsEmpty = true;
+
+        }
+
+        cout << "清空成功" << endl;
+    }
+}
+```
+
