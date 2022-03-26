@@ -933,3 +933,76 @@ void WorkerManager::Find_Emp()
 
 
 
+## 14、排序
+
+功能描述：按照职工编号进行排序，排序的顺序由用户指定
+
+### 14.1 排序函数声明
+
+在workerManager.h中添加成员函数`void Sort_Emp();`
+
+```C++
+	//排序职工
+	void Sort_Emp();
+```
+
+### 14.2 排序函数实现
+
+在workerManager.cpp中实现成员函数`void Sort_Emp();`
+
+```C++
+//排序职工
+void WorkerManager::Sort_Emp()
+{
+    if (this->m_FileIsEmpty)
+    {
+        cout << "文件不存在或者记录为空！" << endl;
+    }
+    else
+    {
+        cout << "请选择排序方式：" << endl;
+        cout << "1、按照职工号进行升序" << endl;
+        cout << "2、按照职工号进行降序" << endl;
+
+        int select = 0;
+        cin >> select;
+
+        for (int i = 0; i< this->m_EmpNum;i++)
+        {
+            int minOrMax = i;
+            for (int j = i + 1; j < this->m_EmpNum;j++)
+            {
+                if (select == 1)
+                {
+                    if (m_EmpArray[minOrMax]->m_Id > m_EmpArray[j]->m_Id)
+                    {
+                        minOrMax = j;
+                    }
+                }
+                else //降序
+                {
+                    if (m_EmpArray[minOrMax]->m_Id < m_EmpArray[j]->m_Id)
+                    {
+                        minOrMax = j;
+                    }
+                }
+            }
+
+            if (i != minOrMax)
+            {
+                Worker * temp = this->m_EmpArray[i];
+                m_EmpArray[i] = this->m_EmpArray[minOrMax];
+                m_EmpArray[minOrMax] = temp;
+            }
+        }
+
+        cout << "排序成功,排序后结果为: " << endl;
+        this->save(); // 排序后结果保存在文件中
+        this->Show_Emp(); //展示所有职工
+        
+            
+        
+    }
+}
+```
+
