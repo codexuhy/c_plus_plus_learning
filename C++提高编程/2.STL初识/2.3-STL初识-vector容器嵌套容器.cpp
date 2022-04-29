@@ -36,8 +36,9 @@ void test01()
         {
             cout << *vit << " ";
         }
+        cout << endl;
     }
-    cout << endl;
+    
 
 }
 
@@ -47,3 +48,7 @@ int main(){
 
     return 0;
 }
+
+
+// g++ -std=c++11 -o test 2.3-STL初识-vector容器嵌套容器.cpp
+// ./test
