@@ -38,8 +38,8 @@ void test01()
     // {
     //     cout << *it << endl;
     // }
-    // 下面的方式弹幕学习到的,也可以
-    // for (auto vector<int>::iterator it =v.begin();it < v.end();it++)
+    // 迭代器自动类型推导
+    // for (auto it =v.begin();it < v.end();it++)
     // {
     //     cout << *it << endl;
     // }
