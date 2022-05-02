@@ -4,7 +4,7 @@ using namespace std;
 // - string &operator=(const string &s);     //把字符串s赋值给当前的字符串
 // - string &operator=(char c);              //把字赋值给当前的字符串
 // - string &assign()(const char *s);        //把字符串s赋给当前的字符串
-// - string &assign()(sonst char *s, int n); //把字符串s的前n个字符串赋值给当前的字符串
+// - string &assign()(const char *s, int n); //把字符串s的前n个字符串赋值给当前的字符串
 // - string &assign(const string &s);        //把字符串s赋值给当前字符串
 // - string &assign(int n, char c);          //用n个字符c赋值给当前字符串
 
