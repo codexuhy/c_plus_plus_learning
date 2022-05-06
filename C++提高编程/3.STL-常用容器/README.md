@@ -249,12 +249,12 @@ string中单个字符存取方式有两种
 - vector对于头部的插入删除效率低，数据量越大，效率越低
 - deque相对而言，对头部的插入删除速度会比vector快
 - vector访问元素时的速度会比deque快，这和两者内部实现有关
-[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-QqtoN8Ku-1651803962899)(https://github.com/codexuhy/c_plus_plus_learning/blob/main/images/1.jpg#pic_center)]
+![Image text](https://github.com/codexuhy/c_plus_plus_learning/blob/main/images/1.jpg#pic_center)
 
 deque内部工作原理：
 deque内部有个**中控器**，维护每段缓冲区中的内容，缓冲区中存放真实数据
 中控器维护的是每个缓冲区的地址，使得使用deque时像一片连续的内存空间
-[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-iyXp4nWW-1651803962900)(https://github.com/codexuhy/c_plus_plus_learning/blob/main/images/2.jpg#pic_center)]
+![Image text](https://github.com/codexuhy/c_plus_plus_learning/blob/main/images/2.jpg#pic_center)
 - deque容器的迭代器也是支持随机访问的
 ### 3.3.2 deque构造函数
 **功能描述：**
