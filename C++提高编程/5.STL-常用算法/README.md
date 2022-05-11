@@ -292,3 +292,66 @@
     //value 起始值
 **示例：** 5.5.2-常用的算术生成算法-fill.cpp
 **总结：** 利用fill可以将容器区间内元素填充为 指定的值
+
+## 5.6 常用的集合算法
+**学习目标：**
+- 掌握常用的集合算法
+**算法简介：**
+- set_intersection          //求两个容器的交集
+- set_union                 //求两个容器的并集
+- set_difference            //求两个容器的差集
+### 5.6.1 set_intersection
+**功能描述：**
+- 求两个容器的交集
+
+**函数原型：**
+- set_intersection(iterator beg1,iterator end1,iterator beg2,iterator end2,iterator dest);
+    //求两个集合的交集
+    //注意：两个集合必须是有序序列
+    //beg1 容器1开始迭代器
+    //end1 容器1结束迭代器
+    //beg2 容器2开始迭代器
+    //end2 容器2结束迭代器
+    //dest 目标容器开始迭代器
+**示例：** 5.6.1-常用的集合算法-set_intersection.cpp
+**总结：** 
+- 求交集的两个集合必须是有序序列
+- 目标容器开辟空间需要从两个容器中取最小值
+- set_intersection 返回值既是交集中的最后一个元素的位置
+### 5.6.2 set_union
+**功能描述：**
+- 求两个容器的并集
+
+**函数原型：**
+- set_union(iterator beg1,iterator end1,iterator beg2,iterator end2,iterator dest);
+    //求两个集合的并集
+    //注意：两个集合必须是有序序列
+    //beg1 容器1开始迭代器
+    //end1 容器1结束迭代器
+    //beg2 容器2开始迭代器
+    //end2 容器2结束迭代器
+    //dest 目标容器开始迭代器
+**示例：** 5.6.2-常用的集合算法-set_union.cpp
+**总结：** 
+- 求并集的两个集合必须是有序序列
+- 目标容器开辟空间需要两个容器相加
+- set_union 返回值既是并集中最后一个元素的位置
+
+### 5.6.3 set_difference
+**功能描述：**
+- 求两个容器的差集
+
+**函数原型：**
+- set_difference(iterator beg1,iterator end1,iterator beg2,iterator end2,iterator dest);
+    //求两个集合的并集
+    //注意：两个集合必须是有序序列
+    //beg1 容器1开始迭代器
+    //end1 容器1结束迭代器
+    //beg2 容器2开始迭代器
+    //end2 容器2结束迭代器
+    //dest 目标容器开始迭代器
+**示例：** 5.6.3-常用的集合算法-set_difference.cpp
+**总结：** 
+- 求差集的两个集合必须是有序序列
+- 目标容器开辟空间需要两个容器取较大值
+- set_difference 返回值既是差集中最后一个元素的位置
